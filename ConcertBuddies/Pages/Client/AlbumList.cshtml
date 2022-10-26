@@ -1,0 +1,30 @@
+﻿@page
+@model ConcertBuddies.Pages.Client.AlbumListModel
+@{
+}
+
+<br />
+<h2> List of Albums </h2>
+<a class="btn btn-primary btn-sm" href="/Client/CreateNewAlbum"> New Album </a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.listAlbum)
+        {
+            <tr>
+                <td>@item.ID</td>
+                <td>@item.name</td>
+                <td>
+                    <a class="btn btn-primary btn-sm" href="/Client/EditPerson?id=@item.ID">Edit</a>
+                    <a class="btn btn-danger btn-sm" href="/Client/DeletePerson?id=@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
