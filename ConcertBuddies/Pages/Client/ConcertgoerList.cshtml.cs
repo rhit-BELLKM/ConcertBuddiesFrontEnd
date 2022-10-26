@@ -21,26 +21,24 @@ namespace ConcertBuddies.Pages.Client
                 // Creates connection
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
+                    SqlCommand command = new SqlCommand("ReadTables", connection);
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@Identifier", 5);
                     connection.Open();
-                    String sql = "SELECT * FROM Concertgoer";
-                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    command.ExecuteNonQuery();
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    
+                    while(reader.Read())
                     {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                ConcertgoerInfo concertgoer = new ConcertgoerInfo();
-                                concertgoer.ID = reader.GetInt32(0);
-                                // concertgoer.name = reader.GetString(1);
-                                // concertgoer.bio = reader.GetString(2);
-                                concertgoer.username = reader.GetString(1);
-                                concertgoer.password = reader.GetString(2);
+                        ConcertgoerInfo concertgoer = new ConcertgoerInfo();
+                        concertgoer.ID = Convert.ToInt32(reader["ConcertgoerID"]);
+                        concertgoer.name = reader["Name"].ToString();
+                        concertgoer.bio = reader["Bio"].ToString();
+                        concertgoer.username = reader["Username"].ToString();
+                        concertgoer.password = reader["Password"].ToString();
 
-                                // Adds new concertgoer to the list of people.
-                                listConcertgoer.Add(concertgoer);
-
-                            }
-                        }
+                        listConcertgoer.Add(concertgoer);
                     }
                 }
             }

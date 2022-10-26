@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,33 +22,75 @@ namespace ConcertBuddies.Pages.Client
                 // Creates connection
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
+                    SqlCommand command = new SqlCommand("ReadTables", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@Identifier", 1);
                     connection.Open();
-                    String sql = "SELECT * FROM Album"; 
-                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    command.ExecuteNonQuery();
+
+                    SqlDataReader reader = command.ExecuteReader();
+                   
+                    while(reader.Read())
                     {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                AlbumInfo album = new AlbumInfo();
-                                album.ID = reader.GetInt32(0);
-                                album.name = reader.GetString(1);
+                        AlbumInfo album = new AlbumInfo();
+                        album.ID = Convert.ToInt32(reader["AlbumID"]);
+                        album.name = reader["Name"].ToString();
 
-                                // Adds new person to the list of people.
-                                listAlbum.Add(album);
-
-                            }
-                        }
+                        listAlbum.Add(album);
+                  
                     }
+
+
+                  
                 }
             }
             catch (Exception e)
             {
                 return;
             }
+
         }
 
+        //public void OnPost()
+        //{
+        //    try
+        //    {
+        //        // Establishes the connection to the database
+        //        String connectionString = "Data Source=titan.csse.rose-hulman.edu;Initial Catalog=ConcertReviewSystem10;Persist Security Info=True;User ID=ConcertGroup;Password=UnluckyDucky_15";
+
+        //        // Creates connection
+        //        using (SqlConnection connection = new SqlConnection(connectionString))
+        //        {
+        //            SqlCommand command = new SqlCommand("ReadTables", connection);
+        //            command.CommandType = CommandType.StoredProcedure;
+        //            connection.Open();
+        //            SqlDataReader reader = command.ExecuteReader();
+
+        //            while (reader.Read())
+        //            {
+        //                AlbumInfo album = new AlbumInfo();
+        //                album.name = reader["Name"].ToString();
+        //                Console.WriteLine(reader["Name"].ToString());
+
+        //                listAlbum.Add(album);
+        //                Console.WriteLine(listAlbum);
+
+        //            }
+
+        //            command.Parameters.AddWithValue("@Identifier", 1);
+        //            command.ExecuteNonQuery();
+
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return;
+        //    }
+
+        //}
+    
     }
+
 }
     public class AlbumInfo
     {

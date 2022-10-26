@@ -21,24 +21,22 @@ namespace ConcertBuddies.Pages.Client
                 // Creates connection
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
+                    SqlCommand command = new SqlCommand("ReadTables", connection);
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@Identifier", 2);
                     connection.Open();
-                    String sql = "SELECT * FROM Artist";
-                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    command.ExecuteNonQuery();
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while(reader.Read())
                     {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                ArtistInfo artist = new ArtistInfo();
-                                artist.ID = reader.GetInt32(0);
-                                // artist.name = reader.GetString(1);
-                                // artist.bio = reader.GetString(2);
+                        ArtistInfo artist = new ArtistInfo();
+                        artist.ID = Convert.ToInt32(reader["ArtistID"]);
+                        artist.name = reader["Name"].ToString();
+                        artist.bio = reader["Bio"].ToString();
 
-                                // Adds new artist to the list of artists.
-                                listArtist.Add(artist);
-
-                            }
-                        }
+                        listArtist.Add(artist);
                     }
                 }
             }

@@ -9,7 +9,6 @@
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
             <th>Name</th>
             <th>Actions</th>
         </tr>
@@ -18,7 +17,6 @@
         @foreach (var item in Model.listAlbum)
         {
             <tr>
-                <td>@item.ID</td>
                 <td>@item.name</td>
                 <td>
                     <a class="btn btn-primary btn-sm" href="/Client/EditPerson?id=@item.ID">Edit</a>
