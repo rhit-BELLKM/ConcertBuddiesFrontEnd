@@ -38,6 +38,7 @@ namespace ConcertBuddies.Pages.Client
                         concertgoer.username = reader["Username"].ToString();
                         concertgoer.password = reader["Password"].ToString();
 
+
                         listConcertgoer.Add(concertgoer);
                     }
                 }
