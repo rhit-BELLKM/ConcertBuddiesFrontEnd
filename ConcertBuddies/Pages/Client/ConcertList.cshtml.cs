@@ -54,6 +54,5 @@ namespace ConcertBuddies.Pages.Client
         public int ID;
         public String description;
         public String location;
-        public String media; // TODO: Implement photos by photo URL
     }
 }

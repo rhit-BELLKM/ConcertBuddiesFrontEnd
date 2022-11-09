@@ -1,0 +1,52 @@
+﻿@page
+@model ConcertBuddies.Pages.Client.EditConcertgoerModel
+@{
+}
+
+<br />
+<h2> Edit Concert </h2>
+
+@if (Model.errorMessage.Length > 0)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>@Model.errorMessage</strong>
+        <button type="button" class="btn-close" data-bs-dimiss="alert" aria-label="OK"></button>
+    </div>
+}
+
+<form method="POST">
+    <input type="hidden" name="ID" value="@Model.newConcertgoer.ID">
+    <div class="col-sm-3 col-form-label">Name</div>
+    <div class="col-sm-6">
+        <input type="text" class="form-control" name="concertgoerName" value="@Model.newConcertgoer.name" />
+    </div>
+    <div class="col-sm-3 col-form-label">Bio</div>
+    <div class="col-sm-6">
+        <input type="text" class="form-control" name="concertgoerBio" value="@Model.newConcertgoer.bio" />
+    </div>
+    <div class="col-sm-3 col-form-label">Username</div>
+    <div class="col-sm-6">
+        <input type="text" class="form-control" name="concertgoerUsername" value="@Model.newConcertgoer.username" />
+    </div>
+
+    @if (Model.successMessage.Length > 0)
+    {
+        <div class="row mb-3">
+            <div class="col-sm-9">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>@Model.successMessage</strong>
+                    <button type="button" class="btn-close" data-bs-dimiss="alert" aria-label="OK"></button>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="row mb-3">
+        <div class="offset-sm-3 col-sm-3 d-grid">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+        <div class="col-sm-3 d-grid">
+            <a class="btn btn-primary" href="/Client/ConcertgoerList" role="button">Cancel</a>
+        </div>
+    </div>
+</form>

@@ -21,25 +21,34 @@ namespace ConcertBuddies.Pages.Client
                 // Creates connection
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    SqlCommand command = new SqlCommand("ReadTables", connection);
-                    command.CommandType = System.Data.CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@Identifier", 5);
                     connection.Open();
-                    command.ExecuteNonQuery();
-
-                    SqlDataReader reader = command.ExecuteReader();
-                    
-                    while(reader.Read())
+                    using (SqlCommand command = new SqlCommand("ReadTables", connection))
                     {
-                        ConcertgoerInfo concertgoer = new ConcertgoerInfo();
-                        concertgoer.ID = Convert.ToInt32(reader["ConcertgoerID"]);
-                        concertgoer.name = reader["Name"].ToString();
-                        concertgoer.bio = reader["Bio"].ToString();
-                        concertgoer.username = reader["Username"].ToString();
-                        concertgoer.password = reader["Password"].ToString();
+                        command.CommandType = System.Data.CommandType.StoredProcedure;
+                        SqlParameter Identifier = new SqlParameter
+                        {
+                            ParameterName = "@Identifier",
+                            Value = 5,
+                            SqlDbType = System.Data.SqlDbType.Int,
+                            Direction = System.Data.ParameterDirection.Input
+                        };
+
+                        command.Parameters.Add(Identifier);
+                        command.ExecuteNonQuery();
+
+                        SqlDataReader reader = command.ExecuteReader();
+
+                        while (reader.Read())
+                        {
+                            ConcertgoerInfo concertgoer = new ConcertgoerInfo();
+                            concertgoer.ID = Convert.ToInt32(reader["ConcertgoerID"]);
+                            concertgoer.name = reader["Name"].ToString();
+                            concertgoer.bio = reader["Bio"].ToString();
+                            concertgoer.username = reader["Username"].ToString();
 
 
-                        listConcertgoer.Add(concertgoer);
+                            listConcertgoer.Add(concertgoer);
+                        }
                     }
                 }
             }

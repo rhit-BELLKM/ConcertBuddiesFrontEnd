@@ -13,7 +13,6 @@
             <th>Name</th>
             <th>Bio</th>
             <th>Username</th>
-            <th>Password</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -25,10 +24,9 @@
                 <td>@item.name</td>
                 <td>@item.bio</td>
                 <td>@item.username</td>
-                <td>@item.password</td>
                 <td>
-                    <a class="btn btn-primary btn-sm" href="/Client/EditConcertgoer?id=@item.ID">Edit</a>
-                    <a class="btn btn-danger btn-sm" href="/Client/DeleteConcertgoer?id=@item.ID">Delete</a>
+                    <a class="btn btn-primary btn-sm" href="/Client/EditConcertgoer?id=@item.ID name=@item.name bio=@item.bio user=@item.username">Edit</a>
+                    <a class="btn btn-danger btn-sm" href="/Client/DeleteConcertgoer?id=@item.ID name=@item.name bio=@item.bio user=@item.username">Delete</a>
                 </td>
             </tr>
         }
