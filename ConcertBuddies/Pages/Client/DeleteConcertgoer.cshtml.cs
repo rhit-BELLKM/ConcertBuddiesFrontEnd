@@ -10,7 +10,7 @@ namespace ConcertBuddies.Pages.Client
 {
     public class DeleteConcertgoerModel : PageModel
     {
-        public ConcertInfo newConcert = new ConcertInfo();
+        public ConcertgoerInfo newConcertgoer = new ConcertgoerInfo();
         public String errorMessage = "";
         public String successMessage = "";
         public void OnGet()
@@ -20,45 +20,27 @@ namespace ConcertBuddies.Pages.Client
 
         public void OnPost()
         {
-            // newConcert.ID = Request.Form["concertID"];
-            newConcert.description = Request.Form["concertDescription"];
-            newConcert.location = Request.Form["concertLocation"];
-
-            if (newConcert.description.Length == 0 || newConcert.location.Length == 0)
-            {
-                errorMessage = "All fields in the form are required.";
-                return;
-            }
+            int ID = Int32.Parse(HttpContext.Request.Query["id"]);
 
             try
             {
-                String connectionString = "Data Source=titan.csse.rose-hulman.edu;Initial Catalog=ConcertReviewSystem10;Persist Security Info=True;User ID=bellkm;Password=K33lan01!"; // TODO: Pls get rid of password pls dear lord heaven above
-                String ID = Request.Query["ConcertID"];
+                String connectionString = "Data Source=titan.csse.rose-hulman.edu;Initial Catalog=ConcertReviewSystem10;Persist Security Info=True;User ID=ConcertGroup;Password=UnluckyDucky_15";
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-
-                    using (SqlCommand command = new SqlCommand("UpdateConcert", connection))
+                    using (SqlCommand command = new SqlCommand("DeleteConcertgoer", connection))
                     {
                         command.CommandType = System.Data.CommandType.StoredProcedure;
-                        SqlParameter description = new SqlParameter
+                        SqlParameter ConcertgoerID = new SqlParameter
                         {
-                            ParameterName = "@description",
-                            Value = newConcert.description,
-                            SqlDbType = System.Data.SqlDbType.NVarChar,
+                            ParameterName = "@ConcertgoerID",
+                            Value = ID,
+                            SqlDbType = System.Data.SqlDbType.Int,
                             Direction = System.Data.ParameterDirection.Input
                         };
-                        SqlParameter location = new SqlParameter
-                        {
-                            ParameterName = "@location",
-                            Value = newConcert.location,
-                            SqlDbType = System.Data.SqlDbType.NVarChar,
-                            Direction = System.Data.ParameterDirection.Input
-                        };
+                        
 
-                        command.Parameters.AddWithValue("@ConcertID", ID);
-                        command.Parameters.Add(description);
-                        command.Parameters.Add(location);
+                        command.Parameters.Add(ConcertgoerID);
                         command.ExecuteNonQuery();
                     }
 
@@ -71,7 +53,7 @@ namespace ConcertBuddies.Pages.Client
                 return;
             }
 
-            Response.Redirect("/Client/ConcertList");
+            Response.Redirect("/Client/ConcertgoerList");
         }
 
     }

@@ -4,7 +4,7 @@
 }
 
 <br />
-<h2> Edit Concert </h2>
+<h2> Edit Concertgoer </h2>
 
 @if (Model.errorMessage.Length > 0)
 {
@@ -18,15 +18,15 @@
     <input type="hidden" name="ID" value="@Model.newConcertgoer.ID">
     <div class="col-sm-3 col-form-label">Name</div>
     <div class="col-sm-6">
-        <input type="text" class="form-control" name="concertgoerName" value="@Model.newConcertgoer.name" />
+        <input type="text" class="form-control" name="concertgoerName" value="@HttpContext.Request.Query["name"]" />
     </div>
     <div class="col-sm-3 col-form-label">Bio</div>
     <div class="col-sm-6">
-        <input type="text" class="form-control" name="concertgoerBio" value="@Model.newConcertgoer.bio" />
+        <input type="text" class="form-control" name="concertgoerBio" value="@HttpContext.Request.Query["bio"]" />
     </div>
     <div class="col-sm-3 col-form-label">Username</div>
     <div class="col-sm-6">
-        <input type="text" class="form-control" name="concertgoerUsername" value="@Model.newConcertgoer.username" />
+        <input type="text" class="form-control" name="concertgoerUsername" value="@HttpContext.Request.Query["username"]" />
     </div>
 
     @if (Model.successMessage.Length > 0)
