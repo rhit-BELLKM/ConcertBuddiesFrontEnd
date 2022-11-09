@@ -6,6 +6,18 @@
 <br />
 <h2> List of Albums </h2>
 <a class="btn btn-primary btn-sm" href="/Client/CreateNewAlbum"> New Album </a>
+<div class="row">
+    <div class="col-sm-12" style="padding-bottom:20px">
+        <form method="post" asp-controller="Albums" asp-action="Import" enctype="multipart/form-data">
+            <div class="col-md-4">
+                <input type="file" id="fUpload" name="files" class="form-control" />
+            </div>
+            <div class="col-md-8">
+                <input type="button" id="btnUpload" value="Upload" />
+            </div>
+        </form>
+    </div>
+</div>
 <table class="table">
     <thead>
         <tr>
