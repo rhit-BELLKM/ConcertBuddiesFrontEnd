@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 namespace ConcertBuddies.Pages.Client
 {
@@ -13,6 +14,13 @@ namespace ConcertBuddies.Pages.Client
         public AlbumInfo newAlbum = new AlbumInfo();
         public String errorMessage = "";
         public String successMessage = "";
+
+        private readonly IConfiguration configuration;
+
+        public CreateNewAlbumModel(IConfiguration config)
+        {
+            configuration = config;
+        }
         public void OnGet()
         {
         }
@@ -29,7 +37,7 @@ namespace ConcertBuddies.Pages.Client
             // Save a new album in the database.
             try
             {
-                String connectionString = "Data Source=titan.csse.rose-hulman.edu;Initial Catalog=ConcertReviewSystem10;Persist Security Info=True;User ID=ConcertGroup;Password=UnluckyDucky_15";
+                String connectionString = AESService.Decrypt(configuration.GetConnectionString("DefaultConnection"));
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();

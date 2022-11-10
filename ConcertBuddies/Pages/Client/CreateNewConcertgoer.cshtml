@@ -1,55 +1,78 @@
 ﻿@page
 @model ConcertBuddies.Pages.Client.CreateNewConcertgoerModel
 @{
+    Layout = null;
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ConcertBuddies</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+   
+    <div class="container">
+        <main role="main" class="pb-3">
+            <br />
+            <h2> Create New Concertgoer </h2>
 
-<br />
-<h2> Create New Concertgoer </h2>
-
-@if (Model.errorMessage.Length > 0)
-{
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>@Model.errorMessage</strong>
-        <button type="button" class="btn-close" data-bs-dimiss="alert" aria-label="OK"></button>
-    </div>
-}
-
-<form method="POST">
-    <div class="col-sm-3 col-form-label">Name</div>
-    <div class="col-sm-6">
-        <input type="text" class="form-control" name="concertgoerName" value="@Model.newConcertgoer.name" />
-    </div>
-    <div class="col-sm-3 col-form-label">Bio</div>
-    <div class="col-sm-6">
-        <input type="text" class="form-control" name="concertgoerBio" value="@Model.newConcertgoer.bio" />
-    </div>
-    <div class="col-sm-3 col-form-label">Username</div>
-    <div class="col-sm-6">
-        <input type="text" class="form-control" name="concertgoerUsername" value="@Model.newConcertgoer.username" />
-    </div>
-    <div class="col-sm-3 col-form-label">Password</div>
-    <div class="col-sm-6">
-        <input type="text" class="form-control" name="concertgoerPassword" value="@Model.newConcertgoer.password" />
-    </div>
-
-    @if (Model.successMessage.Length > 0)
-    {
-        <div class="row mb-3">
-            <div class="col-sm-9">
+            @if (Model.errorMessage.Length > 0)
+            {
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <strong>@Model.successMessage</strong>
+                    <strong>@Model.errorMessage</strong>
                     <button type="button" class="btn-close" data-bs-dimiss="alert" aria-label="OK"></button>
                 </div>
-            </div>
-        </div>
-    }
+            }
 
-    <div class="row mb-3">
-        <div class="offset-sm-3 col-sm-3 d-grid">
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-        <div class="col-sm-3 d-grid">
-            <a class="btn btn-primary" href="/Client/ConcertgoerList" role="button">Cancel</a>
-        </div>
+            <form method="POST">
+                <div class="col-sm-3 col-form-label">Name</div>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="concertgoerName" value="@Model.newConcertgoer.name" />
+                </div>
+                <div class="col-sm-3 col-form-label">Bio</div>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="concertgoerBio" value="@Model.newConcertgoer.bio" />
+                </div>
+                <div class="col-sm-3 col-form-label">Username</div>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="concertgoerUsername" value="@Model.newConcertgoer.username" />
+                </div>
+                <div class="col-sm-3 col-form-label">Password</div>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="concertgoerPassword" value="@Model.newConcertgoer.password" />
+                </div>
+
+                @if (Model.successMessage.Length > 0)
+                {
+                    <div class="row mb-3">
+                        <div class="col-sm-9">
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong>@Model.successMessage</strong>
+                                <button type="button" class="btn-close" data-bs-dimiss="alert" aria-label="OK"></button>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <div class="row mb-3">
+                    <div class="offset-sm-3 col-sm-3 d-grid">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                    <div class="col-sm-3 d-grid">
+                        <a class="btn btn-primary" href="/Client/ConcertgoerList" role="button">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </main>
     </div>
-</form>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+</body>
+</html>

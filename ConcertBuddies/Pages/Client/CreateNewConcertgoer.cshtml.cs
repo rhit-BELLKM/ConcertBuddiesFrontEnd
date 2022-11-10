@@ -7,12 +7,18 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Configuration;
 
 namespace ConcertBuddies.Pages.Client
 {
     public class CreateNewConcertgoerModel : PageModel
     {
+        private readonly IConfiguration configuration;
 
+        public CreateNewConcertgoerModel(IConfiguration config)
+        {
+            configuration = config;
+        }
         private static string getHash(string text)
         {
             using (var sha256 = new SHA256Managed())
@@ -55,7 +61,7 @@ namespace ConcertBuddies.Pages.Client
             // Save the new client in the database
             try
             {
-                String connectionString = "Data Source=titan.csse.rose-hulman.edu;Initial Catalog=ConcertReviewSystem10;Persist Security Info=True;User ID=ConcertGroup;Password=UnluckyDucky_15";
+                String connectionString = AESService.Decrypt(configuration.GetConnectionString("DefaultConnection"));
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
@@ -66,35 +72,35 @@ namespace ConcertBuddies.Pages.Client
                         {
                             ParameterName = "@concertgoerName",
                             Value = newConcertgoer.name,
-                            SqlDbType = System.Data.SqlDbType.NVarChar,
+                            SqlDbType = System.Data.SqlDbType.VarChar,
                             Direction = System.Data.ParameterDirection.Input
                         };
                         SqlParameter bio = new SqlParameter
                         {
                             ParameterName = "@concertgoerBio",
                             Value = newConcertgoer.bio,
-                            SqlDbType = System.Data.SqlDbType.NVarChar,
+                            SqlDbType = System.Data.SqlDbType.VarChar,
                             Direction = System.Data.ParameterDirection.Input
                         };
                         SqlParameter username = new SqlParameter
                         {
                             ParameterName = "@username",
                             Value = newConcertgoer.username,
-                            SqlDbType = System.Data.SqlDbType.NVarChar,
+                            SqlDbType = System.Data.SqlDbType.VarChar,
                             Direction = System.Data.ParameterDirection.Input
                         };
                         SqlParameter password = new SqlParameter
                         {
                             ParameterName = "@password",
                             Value = getHash(newConcertgoer.password + newConcertgoersalt),
-                            SqlDbType = System.Data.SqlDbType.NVarChar,
+                            SqlDbType = System.Data.SqlDbType.VarChar,
                             Direction = System.Data.ParameterDirection.Input
                         };
                         SqlParameter salt = new SqlParameter
                         {
                             ParameterName = "@PasswordSalt",
                             Value = newConcertgoersalt,
-                            SqlDbType = System.Data.SqlDbType.NVarChar,
+                            SqlDbType = System.Data.SqlDbType.VarChar,
                             Direction = System.Data.ParameterDirection.Input
                         };
 
@@ -114,7 +120,7 @@ namespace ConcertBuddies.Pages.Client
                 return;
             }
 
-            Response.Redirect("/Client/ConcertgoerList");
+            Response.Redirect("/");
         }
 
     }

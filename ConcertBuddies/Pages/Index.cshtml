@@ -2,8 +2,10 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
+    Layout = null;
 }
 
+<<<<<<< Updated upstream
 <div class="text-center">
     <h1 class="display-4 mb-15">Welcome</h1>
     <div class="container-fluid">
@@ -37,3 +39,70 @@
         </div>
     </div>
 </div>
+=======
+@*<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <h2>@AESService.Encrypt("Data Source=titan.csse.rose-hulman.edu;Initial Catalog=ConcertReviewSystem10;Persist Security Info=True;User ID=ConcertGroup;Password=UnluckyDucky_15")</h2>
+    <h3>@AESService.Decrypt("8CYMZsv28J3J8c14gMMn8ghl9eRKt7voQji2NP3M4ZjiMcFgiqmoAP1HRQsgxPUR1O17oFT6gRGZoyRlp3Gze1UrUt00voqvlgYdV8zbzLksuUgUuhZ/KqXy7fXR895YWlr0wCSrUfvzi+cBtonqDd/LHSGAAXHZiela+GpkXsWbruAKYlyWea2QhNwWh4+9sJR9m0Jm8Rh85FyO5VcTYg==")</h3>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>*@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Concert Buddies</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+@if (Model.errorMessage.Length > 0)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>@Model.errorMessage</strong>
+        <button type="button" class="btn-close" data-bs-dimiss="alert" aria-label="OK"></button>
+    </div>
+}
+@if (Model.successMessage.Length > 0)
+{
+    <div class="row mb-3">
+        <div class="col-sm-9">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>@Model.successMessage</strong>
+                <button type="button" class="btn-close" data-bs-dimiss="alert" aria-label="OK"></button>
+            </div>
+        </div>
+    </div>
+}
+<form method="POST">
+<body class="text-center">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <h1 class="mb-3">ConcertBuddies</h1>
+                    <div class="row">
+                        <div class="col-md-8 mx-auto">
+                                <h4 class="h3 mb-3 font-weight-normal">Please sign in</h4>
+                                <div class="text-danger"></div>
+
+                                <div class="form-outline mb-4">
+                                <input type="text" class="form-control w-100" name="concertgoerUsername" " />
+                                    <span  class="text-danger"></span>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                <input type="text" class="form-control w-100" name="concertgoerPassword" " />
+                                    <span class="text-danger"></span>
+                                </div>
+
+@*                            <a type="submit"  class="btn btn-primary btn-block mb-4">Login</a>
+*@                            <button type="submit" class="btn btn-primary btn-block mb-4">Login</button>
+                            <a href="/Client/CreateNewConcertgoer" class="btn btn-secondary btn-block mb-4">Register</a>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</body>
+</form>
+
+>>>>>>> Stashed changes

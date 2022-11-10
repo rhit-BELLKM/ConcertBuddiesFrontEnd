@@ -12,6 +12,7 @@ using CsvHelper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Configuration;
 using NPOI.SS.Formula.Functions;
 using NPOI.SS.UserModel;
 using OfficeOpenXml;
@@ -24,12 +25,19 @@ namespace ConcertBuddies.Pages.Client
         public List<AlbumInfo> listAlbum = new List<AlbumInfo>();
         public IFormFile file = null;
         public String errorMessage = "";
+
+        private readonly IConfiguration configuration;
+
+        public AlbumListModel(IConfiguration config)
+        {
+            configuration = config;
+        }
         public void OnGet()
         {
             try
             {
                 // Establishes the connection to the database
-                String connectionString = "Data Source=titan.csse.rose-hulman.edu;Initial Catalog=ConcertReviewSystem10;Persist Security Info=True;User ID=ConcertGroup;Password=UnluckyDucky_15";
+                String connectionString = AESService.Decrypt(configuration.GetConnectionString("DefaultConnection"));
 
                 // Creates connection
                 using (SqlConnection connection = new SqlConnection(connectionString))
