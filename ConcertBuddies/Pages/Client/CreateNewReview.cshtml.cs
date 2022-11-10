@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Data.SqlClient;
 
@@ -10,6 +11,13 @@ namespace ConcertBuddies.Pages.Client
         public ReviewInfo newReview = new ReviewInfo();
         public String errorMessage = "";
         public String successMessage = "";
+
+        private readonly IConfiguration configuration;
+
+        public CreateNewReviewModel(IConfiguration config)
+        {
+            configuration = config;
+        }
         public void OnGet()
         {
         }
@@ -27,7 +35,7 @@ namespace ConcertBuddies.Pages.Client
             }
             try
             {
-                String connectionString = "Data Source=titan.csse.rose-hulman.edu;Initial Catalog=ConcertReviewSystem10;Persist Security Info=True;User ID=ConcertGroup;Password=UnluckyDucky_15";
+                String connectionString = AESService.Decrypt(configuration.GetConnectionString("DefaultConnection"));
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();

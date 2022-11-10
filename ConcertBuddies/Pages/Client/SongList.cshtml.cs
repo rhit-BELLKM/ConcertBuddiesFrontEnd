@@ -16,9 +16,8 @@ namespace ConcertBuddies.Pages.Client
     public class SongListModel : PageModel
     {
         public List<SongInfo> listSong = new List<SongInfo>();
-<<<<<<< Updated upstream
+
         String errorMessage = "";
-=======
 
         private readonly IConfiguration configuration;
 
@@ -26,7 +25,6 @@ namespace ConcertBuddies.Pages.Client
         {
             configuration = config;
         }
->>>>>>> Stashed changes
         public void OnGet()
         {
             try

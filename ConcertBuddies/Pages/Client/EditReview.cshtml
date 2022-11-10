@@ -18,32 +18,20 @@
     <input type="hidden" name="ID" value="@Model.newReview.concertID">
     <div class="col-sm-3 col-form-label">Description</div>
     <div class="col-sm-6">
-        <input type="text" class="form-control" name="SongName" value="@HttpContext.Request.Query["description"]" />
+        <input type="text" class="form-control" name="ReviewName" value="@HttpContext.Request.Query["description"]" />
     </div>
     <div class="col-sm-3 col-form-label">Rating</div>
     <div class="col-sm-6">
-        <input type="text" class="form-control" name="SongAlbum" value="@HttpContext.Request.Query["rating"]" />
+        <input type="text" class="form-control" name="ReviewAlbum" value="@HttpContext.Request.Query["rating"]" />
     </div>
 
-
-    @if (Model.successMessage.Length > 0)
-    {
-        <div class="row mb-3">
-            <div class="col-sm-9">
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <strong>@Model.successMessage</strong>
-                    <button type="button" class="btn-close" data-bs-dimiss="alert" aria-label="OK"></button>
-                </div>
-            </div>
-        </div>
-    }
 
     <div class="row mb-3">
         <div class="offset-sm-3 col-sm-3 d-grid">
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
         <div class="col-sm-3 d-grid">
-            <a class="btn btn-primary" href="/Client/SongList" role="button">Cancel</a>
+            <a class="btn btn-primary" href="/Client/ReviewList" role="button">Cancel</a>
         </div>
     </div>
 </form>
