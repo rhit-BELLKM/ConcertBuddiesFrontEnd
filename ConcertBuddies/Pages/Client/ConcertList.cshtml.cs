@@ -22,22 +22,31 @@ namespace ConcertBuddies.Pages.Client
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    String sql = "SELECT * FROM Concert";
-                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    using (SqlCommand command = new SqlCommand("ReadTables", connection))
                     {
-                        using (SqlDataReader reader = command.ExecuteReader())
+                        command.CommandType = System.Data.CommandType.StoredProcedure;
+                        SqlParameter Identifier = new SqlParameter
                         {
-                            while (reader.Read())
-                            {
-                                ConcertInfo concert = new ConcertInfo();
-                                concert.ID = reader.GetInt32(0);
-                                concert.description = reader.GetString(1);
-                                concert.location = reader.GetString(2);
+                            ParameterName = "@Identifier",
+                            Value = 4,
+                            SqlDbType = System.Data.SqlDbType.Int,
+                            Direction = System.Data.ParameterDirection.Input
+                        };
 
-                                // Adds new concert to the list of concerts.
-                                listConcert.Add(concert);
+                        command.Parameters.Add(Identifier);
+                        command.ExecuteNonQuery();
 
-                            }
+                        SqlDataReader reader = command.ExecuteReader();
+
+                        while (reader.Read())
+                        {
+                            ConcertInfo concert = new ConcertInfo();
+                            concert.ID = Convert.ToInt32(reader["ConcertID"]);
+                            concert.description = reader["description"].ToString();
+                            concert.location = reader["location"].ToString();
+
+
+                            listConcert.Add(concert);
                         }
                     }
                 }
