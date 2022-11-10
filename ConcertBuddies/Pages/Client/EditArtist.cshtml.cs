@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ConcertBuddies.Pages.Client
 {
-    public class DeleteSongModel : PageModel
+    public class EditArtistModel : PageModel
     {
-        public SongInfo newsong = new SongInfo();
+        public ArtistInfo newArtist = new ArtistInfo();
         public String errorMessage = "";
         public String successMessage = "";
         public void OnGet()
@@ -21,6 +21,8 @@ namespace ConcertBuddies.Pages.Client
         public void OnPost()
         {
             int ID = Int32.Parse(HttpContext.Request.Query["id"]);
+            newArtist.name = Request.Form["ArtistName"];
+            newArtist.bio = Request.Form["ArtistBio"];
 
             try
             {
@@ -28,19 +30,34 @@ namespace ConcertBuddies.Pages.Client
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    using (SqlCommand command = new SqlCommand("DeleteSong", connection))
+                    using (SqlCommand command = new SqlCommand("UpdateArtist", connection))
                     {
                         command.CommandType = System.Data.CommandType.StoredProcedure;
-                        SqlParameter SongID = new SqlParameter
+                        SqlParameter ArtistID = new SqlParameter
                         {
-                            ParameterName = "@SongID",
+                            ParameterName = "@ArtistID",
                             Value = ID,
                             SqlDbType = System.Data.SqlDbType.Int,
                             Direction = System.Data.ParameterDirection.Input
                         };
+                        SqlParameter ArtistName = new SqlParameter
+                        {
+                            ParameterName = "@ArtistName",
+                            Value = newArtist.name,
+                            SqlDbType = System.Data.SqlDbType.VarChar,
+                            Direction = System.Data.ParameterDirection.Input
+                        };
+                        SqlParameter ArtistBio = new SqlParameter
+                        {
+                            ParameterName = "@ArtistBio",
+                            Value = newArtist.bio,
+                            SqlDbType = System.Data.SqlDbType.VarChar,
+                            Direction = System.Data.ParameterDirection.Input
+                        };
 
-
-                        command.Parameters.Add(SongID);
+                        command.Parameters.Add(ArtistID);
+                        command.Parameters.Add(ArtistName);
+                        command.Parameters.Add(ArtistBio);
                         command.ExecuteNonQuery();
                     }
 
@@ -53,7 +70,7 @@ namespace ConcertBuddies.Pages.Client
                 return;
             }
 
-            Response.Redirect("/Client/SongList");
+            Response.Redirect("/Client/ArtistList");
         }
 
     }

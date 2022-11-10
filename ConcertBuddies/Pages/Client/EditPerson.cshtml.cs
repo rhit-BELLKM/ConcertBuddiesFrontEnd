@@ -15,44 +15,7 @@ namespace ConcertBuddies.Pages.Client
         public String successMessage = "";
         public void OnGet()
         {
-            String ID = Request.Query["ID"];
-
-            try
-            {
-                // Establishes the connection to the database
-                // TODO: Replace with generic user login information. My information right now for testing purposes.
-                String connectionString = "Data Source=titan.csse.rose-hulman.edu;Initial Catalog=ConcertReviewSystem10;Persist Security Info=True;User ID=ConcertGroup;Password=UnluckyDucky_15";
-
-                // Creates connection
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    connection.Open();
-                    String sql = "SELECT * FROM Person WHERE ID = @ID"; // TODO: Replace this with a call to a stored procedure.
-                    using (SqlCommand command = new SqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@ID", ID);
-                        command.ExecuteNonQuery();
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                PersonInfo person = new PersonInfo();
-                                person.ID = reader.GetInt32(0);
-                                person.name = reader.GetString(1);
-                                person.bio = reader.GetString(2);
-
-                            }
-                        }
-                    }
-                }
-
-
-            }
-            catch (Exception e)
-            {
-                errorMessage = e.Message;
-                return;
-            }
+           
         }
             
         public void OnPost()

@@ -9,8 +9,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Description</th>
+=            <th>Description</th>
             <th>Location</th>
             <th>Actions</th>
         </tr>
@@ -19,12 +18,11 @@
         @foreach (var item in Model.listConcert)
         {
             <tr>
-                <td>@item.ID</td>
-                <td>@item.description</td>
+=                <td>@item.description</td>
                 <td>@item.location</td>
                 <td>
-                    <a class="btn btn-primary btn-sm" href="/Client/EditConcert?id=@item.ID">Edit</a>
-                    <a class="btn btn-danger btn-sm" href="/Client/DeleteConcert?id=@item.ID">Delete</a>
+                    <a class="btn btn-primary btn-sm" href="/Client/EditConcert?id=@item.ID&description=@item.description&location=@item.location">Edit</a>
+                    <a class="btn btn-danger btn-sm" href="/Client/DeleteConcert?id=@item.ID&description=@item.description&location=@item.location">Delete</a>
                 </td>
             </tr>
         }

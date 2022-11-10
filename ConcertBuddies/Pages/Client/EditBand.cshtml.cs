@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ConcertBuddies.Pages.Client
 {
-    public class DeleteSongModel : PageModel
+    public class EditBandModel : PageModel
     {
-        public SongInfo newsong = new SongInfo();
+        public BandInfo newBand = new BandInfo();
         public String errorMessage = "";
         public String successMessage = "";
         public void OnGet()
@@ -21,6 +21,8 @@ namespace ConcertBuddies.Pages.Client
         public void OnPost()
         {
             int ID = Int32.Parse(HttpContext.Request.Query["id"]);
+            newBand.name = Request.Form["BandName"];
+
 
             try
             {
@@ -28,19 +30,26 @@ namespace ConcertBuddies.Pages.Client
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    using (SqlCommand command = new SqlCommand("DeleteSong", connection))
+                    using (SqlCommand command = new SqlCommand("UpdateBand", connection))
                     {
                         command.CommandType = System.Data.CommandType.StoredProcedure;
-                        SqlParameter SongID = new SqlParameter
+                        SqlParameter BandID = new SqlParameter
                         {
-                            ParameterName = "@SongID",
+                            ParameterName = "@BandID",
                             Value = ID,
                             SqlDbType = System.Data.SqlDbType.Int,
                             Direction = System.Data.ParameterDirection.Input
                         };
+                        SqlParameter BandName = new SqlParameter
+                        {
+                            ParameterName = "@BandName",
+                            Value = newBand.name,
+                            SqlDbType = System.Data.SqlDbType.VarChar,
+                            Direction = System.Data.ParameterDirection.Input
+                        };
 
-
-                        command.Parameters.Add(SongID);
+                        command.Parameters.Add(BandID);
+                        command.Parameters.Add(BandName);
                         command.ExecuteNonQuery();
                     }
 
@@ -53,7 +62,7 @@ namespace ConcertBuddies.Pages.Client
                 return;
             }
 
-            Response.Redirect("/Client/SongList");
+            Response.Redirect("/Client/BandList");
         }
 
     }

@@ -1,0 +1,29 @@
+﻿@page
+@model ConcertBuddies.Pages.Client.DeleteArtistModel
+@{
+}
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+
+ <form method="POST">
+<div>
+    <h4>Artist</h4>
+    <h5>Name: @HttpContext.Request.Query["name"]</h5>
+    <h5>Bio: @HttpContext.Request.Query["bio"]</h5>
+
+    <div class="row mb-3">
+        <div class="offset-sm-3 col-sm-3 d-grid">
+            <button type="submit" class="btn btn-primary">Confirm</button>
+        </div>
+        <div class="col-sm-3 d-grid">
+            <a class="btn btn-secondary" href="/Client/ArtistList" role="button">Cancel</a>
+        </div>
+    </div>
+</div>
+</form>

@@ -50,10 +50,7 @@ namespace ConcertBuddies.Pages.Client
                             SqlDbType = System.Data.SqlDbType.NVarChar,
                             Direction = System.Data.ParameterDirection.Input
                         };
-                        // command.Parameters.AddWithValue("@name", newArtist.name);
-                        // command.Parameters.AddWithValue("@bio", newArtist.bio);
 
-                        // command.ExecuteNonQuery();
                         command.Parameters.Add(name);
                         command.Parameters.Add(bio);
                         command.ExecuteNonQuery();

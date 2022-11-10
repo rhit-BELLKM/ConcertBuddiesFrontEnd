@@ -49,7 +49,7 @@ namespace ConcertBuddies.Pages.Client
                         SqlParameter album = new SqlParameter
                         {
                             ParameterName = "@albumID",
-                            Value = newSong.album,
+                            Value = Int32.Parse(newSong.album),
                             SqlDbType = System.Data.SqlDbType.Int,
                             Direction = System.Data.ParameterDirection.Input
                         };

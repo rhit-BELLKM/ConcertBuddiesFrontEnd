@@ -21,22 +21,33 @@ namespace ConcertBuddies.Pages.Client
                 // Creates connection
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    SqlCommand command = new SqlCommand("ReadTables", connection);
-                    command.CommandType = System.Data.CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@Identifier", 2);
                     connection.Open();
-                    command.ExecuteNonQuery();
-
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    while(reader.Read())
+                    using (SqlCommand command = new SqlCommand("ReadTables", connection))
                     {
-                        ArtistInfo artist = new ArtistInfo();
-                        artist.ID = Convert.ToInt32(reader["ArtistID"]);
-                        artist.name = reader["Name"].ToString();
-                        artist.bio = reader["Bio"].ToString();
+                        command.CommandType = System.Data.CommandType.StoredProcedure;
+                        SqlParameter Identifier = new SqlParameter
+                        {
+                            ParameterName = "@Identifier",
+                            Value = 2,
+                            SqlDbType = System.Data.SqlDbType.Int,
+                            Direction = System.Data.ParameterDirection.Input
+                        };
 
-                        listArtist.Add(artist);
+                        command.Parameters.Add(Identifier);
+                        command.ExecuteNonQuery();
+
+                        SqlDataReader reader = command.ExecuteReader();
+
+                        while (reader.Read())
+                        {
+                            ArtistInfo artist = new ArtistInfo();
+                            artist.ID = Convert.ToInt32(reader["ArtistID"]);
+                            artist.name = reader["Name"].ToString();
+                            artist.bio = reader["Bio"].ToString();
+
+
+                            listArtist.Add(artist);
+                        }
                     }
                 }
             }

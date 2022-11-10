@@ -1,10 +1,10 @@
 ﻿@page
-@model ConcertBuddies.Pages.Client.EditConcertModel
+@model ConcertBuddies.Pages.Client.EditAlbumModel
 @{
 }
 
 <br />
-<h2> Edit Concert </h2>
+<h2> Edit Album </h2>
 
 @if (Model.errorMessage.Length > 0)
 {
@@ -15,14 +15,10 @@
 }
 
 <form method="POST">
-    <input type="hidden" name="ID" value="@Model.newConcert.ID">
-    <div class="col-sm-3 col-form-label">Description</div>
+    <input type="hidden" name="ID" value="@Model.newAlbum.ID">
+    <div class="col-sm-3 col-form-label">Name</div>
     <div class="col-sm-6">
-        <input type="text" class="form-control" name="concertDescription" value="@HttpContext.Request.Query["description"]" />
-    </div>
-    <div class="col-sm-3 col-form-label">Location</div>
-    <div class="col-sm-6">
-        <input type="text" class="form-control" name="concertLocation" value="@HttpContext.Request.Query["location"]" />
+        <input type="text" class="form-control" name="AlbumName" value="@HttpContext.Request.Query["name"]" />
     </div>
 
     @if (Model.successMessage.Length > 0)
@@ -42,7 +38,7 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
         <div class="col-sm-3 d-grid">
-            <a class="btn btn-primary" href="/Client/ConcertList" role="button">Cancel</a>
+            <a class="btn btn-primary" href="/Client/AlbumList" role="button">Cancel</a>
         </div>
     </div>
 </form>

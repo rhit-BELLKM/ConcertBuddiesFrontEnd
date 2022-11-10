@@ -15,48 +15,12 @@ namespace ConcertBuddies.Pages.Client
         public String successMessage = "";
         public void OnGet()
         {
-            String ID = Request.Query["ConcertID"];
-
-            try
-            {
-                // Establishes the connection to the database
-                String connectionString = "Data Source=titan.csse.rose-hulman.edu;Initial Catalog=ConcertReviewSystem10;Persist Security Info=True;User ID=ConcertGroup;Password=UnluckyDucky_15";
-
-                // Creates connection
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    connection.Open();
-                    String sql = "SELECT * FROM Concert WHERE ConcertID = @ConcertID"; 
-                    using (SqlCommand command = new SqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@ConcertID", ID);
-                        // command.ExecuteNonQuery();
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                // ConcertInfo concert = new ConcertInfo();
-                                newConcert.ID = reader.GetInt32(0);
-                                newConcert.description = reader.GetString(1);
-                                newConcert.location = reader.GetString(2);
-
-                            }
-                        }
-                    }
-                }
-
-
-            }
-            catch (Exception e)
-            {
-                errorMessage = e.Message;
-                return;
-            }
+            
         }
 
         public void OnPost()
         {
-            // newConcert.ID = Request.Form["concertID"];
+            int ID = Int32.Parse(HttpContext.Request.Query["id"]);
             newConcert.description = Request.Form["concertDescription"];
             newConcert.location = Request.Form["concertLocation"];
 
@@ -69,7 +33,6 @@ namespace ConcertBuddies.Pages.Client
             try
             {
                 String connectionString = "Data Source=titan.csse.rose-hulman.edu;Initial Catalog=ConcertReviewSystem10;Persist Security Info=True;User ID=bellkm;Password=K33lan01!"; // TODO: Pls get rid of password pls dear lord heaven above
-                String ID = Request.Query["ConcertID"];
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
@@ -77,6 +40,13 @@ namespace ConcertBuddies.Pages.Client
                     using (SqlCommand command = new SqlCommand("UpdateConcert", connection))
                     {
                         command.CommandType = System.Data.CommandType.StoredProcedure;
+                        SqlParameter ConcertgoerID = new SqlParameter
+                        {
+                            ParameterName = "@ConcertID",
+                            Value = ID,
+                            SqlDbType = System.Data.SqlDbType.Int,
+                            Direction = System.Data.ParameterDirection.Input
+                        };
                         SqlParameter description = new SqlParameter
                         {
                             ParameterName = "@description",
@@ -92,7 +62,7 @@ namespace ConcertBuddies.Pages.Client
                             Direction = System.Data.ParameterDirection.Input
                         };
 
-                        command.Parameters.AddWithValue("@ConcertID", ID);
+                        command.Parameters.Add(ConcertgoerID);
                         command.Parameters.Add(description);
                         command.Parameters.Add(location);
                         command.ExecuteNonQuery();

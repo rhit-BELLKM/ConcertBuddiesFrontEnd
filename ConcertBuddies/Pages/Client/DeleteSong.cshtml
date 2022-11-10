@@ -1,29 +1,30 @@
 ﻿@page
-@using System.Data.SqlClient;
+@model ConcertBuddies.Pages.Client.DeleteSongModel
 @{
-    try
-    {
-        String ID = Request.Query["id"];
-        Console.WriteLine(ID);
-
-        String connectionString = "Data Source=titan.csse.rose-hulman.edu;Initial Catalog=ConcertReviewSystem10;Persist Security Info=True;User ID=ConcertGroup;Password=UnluckyDucky_15";
-        using (SqlConnection connection = new SqlConnection(connectionString))
-        {
-            connection.Open();
-
-            using (SqlCommand command = new SqlCommand("DeleteSong", connection))
-            {
-                command.Parameters.AddWithValue("@SongID", ID);
-                command.ExecuteNonQuery();
-            }
-        }
-
-    }
-    catch (Exception e)
-    {
-        Console.WriteLine(e.Message);
-        return;
-    }
-
-    Response.Redirect("/Client/SongList");
 }
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+
+<form method="POST">
+    <div>
+        <h4>song</h4>
+        <h5>Name: @HttpContext.Request.Query["name"]</h5>
+        <h5>Album: @HttpContext.Request.Query["album"]</h5>
+        <h5>Genre: @HttpContext.Request.Query["genre"]</h5>
+
+        <div class="row mb-3">
+            <div class="offset-sm-3 col-sm-3 d-grid">
+                <button type="submit" class="btn btn-primary">Confirm</button>
+            </div>
+            <div class="col-sm-3 d-grid">
+                <a class="btn btn-secondary" href="/Client/SongList" role="button">Cancel</a>
+            </div>
+        </div>
+    </div>
+</form>

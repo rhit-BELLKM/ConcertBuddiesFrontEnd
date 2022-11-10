@@ -8,14 +8,14 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ConcertBuddies.Pages.Client
 {
-    public class DeleteSongModel : PageModel
+    public class DeleteArtistModel : PageModel
     {
-        public SongInfo newsong = new SongInfo();
+        public ArtistInfo newArtist = new ArtistInfo();
         public String errorMessage = "";
         public String successMessage = "";
         public void OnGet()
         {
-
+           
         }
 
         public void OnPost()
@@ -28,19 +28,19 @@ namespace ConcertBuddies.Pages.Client
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    using (SqlCommand command = new SqlCommand("DeleteSong", connection))
+                    using (SqlCommand command = new SqlCommand("DeleteArtist", connection))
                     {
                         command.CommandType = System.Data.CommandType.StoredProcedure;
-                        SqlParameter SongID = new SqlParameter
+                        SqlParameter ArtistID = new SqlParameter
                         {
-                            ParameterName = "@SongID",
+                            ParameterName = "@ArtistID",
                             Value = ID,
                             SqlDbType = System.Data.SqlDbType.Int,
                             Direction = System.Data.ParameterDirection.Input
                         };
+                        
 
-
-                        command.Parameters.Add(SongID);
+                        command.Parameters.Add(ArtistID);
                         command.ExecuteNonQuery();
                     }
 
@@ -53,7 +53,7 @@ namespace ConcertBuddies.Pages.Client
                 return;
             }
 
-            Response.Redirect("/Client/SongList");
+            Response.Redirect("/Client/ArtistList");
         }
 
     }

@@ -21,21 +21,32 @@ namespace ConcertBuddies.Pages.Client
                 // Creates connection
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    SqlCommand command = new SqlCommand("ReadTables", connection);
-                    command.CommandType = System.Data.CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@Identifier", 3);
                     connection.Open();
-                    command.ExecuteNonQuery();
-
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    while (reader.Read())
+                    using (SqlCommand command = new SqlCommand("ReadTables", connection))
                     {
-                        BandInfo band = new BandInfo();
-                        band.ID = Convert.ToInt32(reader["BandID"]);
-                        band.name = reader["Name"].ToString();
+                        command.CommandType = System.Data.CommandType.StoredProcedure;
+                        SqlParameter Identifier = new SqlParameter
+                        {
+                            ParameterName = "@Identifier",
+                            Value = 3,
+                            SqlDbType = System.Data.SqlDbType.Int,
+                            Direction = System.Data.ParameterDirection.Input
+                        };
 
-                        listBand.Add(band);
+                        command.Parameters.Add(Identifier);
+                        command.ExecuteNonQuery();
+
+                        SqlDataReader reader = command.ExecuteReader();
+
+                        while (reader.Read())
+                        {
+                            BandInfo band = new BandInfo();
+                            band.ID = Convert.ToInt32(reader["BandID"]);
+                            band.name = reader["Name"].ToString();
+
+
+                            listBand.Add(band);
+                        }
                     }
                 }
             }

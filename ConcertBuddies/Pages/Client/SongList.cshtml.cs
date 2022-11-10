@@ -22,23 +22,32 @@ namespace ConcertBuddies.Pages.Client
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    String sql = "SELECT * FROM Song";
-                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    using (SqlCommand command = new SqlCommand("ReadTables", connection))
                     {
-                        using (SqlDataReader reader = command.ExecuteReader())
+                        command.CommandType = System.Data.CommandType.StoredProcedure;
+                        SqlParameter Identifier = new SqlParameter
                         {
-                            while (reader.Read())
-                            {
-                                SongInfo song = new SongInfo();
-                                song.ID = reader.GetInt32(0);
-                                song.name = reader.GetString(1);
-                                // song.album = reader.GetString(2);
-                                song.genre = reader.GetString(3);
+                            ParameterName = "@Identifier",
+                            Value = 6,
+                            SqlDbType = System.Data.SqlDbType.Int,
+                            Direction = System.Data.ParameterDirection.Input
+                        };
 
-                                // Adds new song to the list of songs.
-                                listSong.Add(song);
+                        command.Parameters.Add(Identifier);
+                        command.ExecuteNonQuery();
 
-                            }
+                        SqlDataReader reader = command.ExecuteReader();
+
+                        while (reader.Read())
+                        {
+                            SongInfo song = new SongInfo();
+                            song.ID = Convert.ToInt32(reader["SongID"]);
+                            song.name = reader["Name"].ToString();
+                            song.album = reader["Album"].ToString();
+                            song.genre = reader["Genre"].ToString();
+
+
+                            listSong.Add(song);
                         }
                     }
                 }
