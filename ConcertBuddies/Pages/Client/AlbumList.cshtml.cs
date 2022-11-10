@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -21,7 +22,7 @@ namespace ConcertBuddies.Pages.Client
     public class AlbumListModel : PageModel
     {
         public List<AlbumInfo> listAlbum = new List<AlbumInfo>();
-        public AlbumInfo Album {get; set;}
+        public IFormFile file = null;
         public String errorMessage = "";
         public void OnGet()
         {
@@ -62,47 +63,64 @@ namespace ConcertBuddies.Pages.Client
 
         }
 
-        public async void OnPost(IFormFile file)
+        public void OnPost()
         {
-            if (file == null || file.Length == 0)
+            IFormFile file = Request.Form.Files[0];
+            List<AlbumInfo> imported = new List<AlbumInfo>();
+            using (Stream stream = file.OpenReadStream())
             {
-                errorMessage = "Please select a file";
-                return;
-            }
-
-            string fileExtension = Path.GetExtension(file.FileName);
-            if (fileExtension != ".xls" && fileExtension != ".xlsx")
-            {
-                errorMessage = "File must be .xls/.xlsx format.";
-                return;
-            }
-
-            var rootFolder = @"C:\Desktop";
-            var fileName = file.FileName;
-            var filePath = Path.Combine(rootFolder, fileName);
-            var fileLocation = new FileInfo(filePath);
-
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(fileStream);
-            }
-
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            using (ExcelPackage package = new ExcelPackage(fileLocation))
-            {
-                ExcelWorksheet workSheet = package.Workbook.Worksheets[0];
-                //var workSheet = package.Workbook.Worksheets.First();
-                int totalRows = workSheet.Dimension.Rows;
-
-                var DataList = new List<AlbumInfo>();
-
-                for (int i = 2; i <= totalRows; i++)
+                using (StreamReader reader = new StreamReader(stream))
                 {
-                    DataList.Add(new AlbumInfo(workSheet.Cells[i, 1].Value.ToString().Trim()));
+                    using(CsvReader csvReader = new CsvReader(reader, CultureInfo.InvariantCulture))
+                    {
+                        csvReader.Read();
+                        csvReader.ReadHeader();
+
+                        while(csvReader.Read())
+                        {
+                            var record = new AlbumInfo
+                            {
+                                name = csvReader.GetField("Name").ToString().Trim()
+                            };
+                            imported.Add((AlbumInfo)record); // WORKS UP UNTIL HERE, NEED TO RUN SPROC TO ADD TO DATABASE
+                        }
+                    }
                 }
-                System.Diagnostics.Debug.Write(DataList);
             }
+            try
+            {
+                String connectionString = "Data Source=titan.csse.rose-hulman.edu;Initial Catalog=ConcertReviewSystem10;Persist Security Info=True;User ID=ConcertGroup;Password=UnluckyDucky_15";
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    foreach (AlbumInfo importedAlbum in imported)
+                    {
+                        using (SqlCommand command = new SqlCommand("InsertAlbum", connection))
+                        {
+                            command.CommandType = System.Data.CommandType.StoredProcedure;
+                            SqlParameter name = new SqlParameter
+                            {
+                                ParameterName = "@name",
+                                Value = importedAlbum.name,
+                                SqlDbType = System.Data.SqlDbType.NVarChar,
+                                Direction = System.Data.ParameterDirection.Input
+                            };
+
+                            command.Parameters.Add(name);
+                            command.ExecuteNonQuery();
+                        }
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                errorMessage = e.Message;
+                return;
+            }
+
             Response.Redirect("/Client/AlbumList");
+
         }
 
     }
@@ -110,15 +128,6 @@ namespace ConcertBuddies.Pages.Client
 }
     public class AlbumInfo
     {
-        public AlbumInfo()
-        {
-
-        }
-        public AlbumInfo(String passedName)
-        {
-        this.name = passedName;
-        }
-
         public int ID;
         public String name;
     }

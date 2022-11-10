@@ -1,7 +1,8 @@
 ﻿@page
 @model ConcertBuddies.Pages.Client.AlbumListModel
+@using Microsoft.Web.Helpers;
 @{
-    
+
 }
 
 
@@ -9,14 +10,10 @@
 <h2> List of Albums </h2>
 <a class="btn btn-primary btn-sm" href="/Client/CreateNewAlbum"> New Album </a>
 <div class="row">
-    <div class="col-sm-12" style="padding-top:50px padding-bottom:20px">
-        <form method="POST">
-            <div class="col-md-4">
-                <input type="file" id="fUpload" class="form-control" />
-            </div>
-            <div class="col-md-8">
-                <button type="submit" id="btnUpload" class="btn btn-primary">Upload</button>
-            </div>
+    <div class="col-sm-12" style="padding-bottom:20px">
+        <form enctype="multipart/form-data" method="POST">
+            <input type="file" name="file" />
+            <button type="submit">Import from Excel</button>
         </form>
     </div>
 </div>
