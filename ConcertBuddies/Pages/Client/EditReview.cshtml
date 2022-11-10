@@ -1,10 +1,10 @@
 ﻿@page
-@model ConcertBuddies.Pages.Client.CreateNewReviewModel
+@model ConcertBuddies.Pages.Client.EditReviewModel
 @{
 }
 
 <br />
-<h2> Create New Review </h2>
+<h2> Edit Review </h2>
 
 @if (Model.errorMessage.Length > 0)
 {
@@ -15,14 +15,16 @@
 }
 
 <form method="POST">
+    <input type="hidden" name="ID" value="@Model.newReview.concertID">
     <div class="col-sm-3 col-form-label">Description</div>
     <div class="col-sm-6">
-        <input type="text" class="form-control" name="reviewDescription" value="@Model.newReview.description" />
+        <input type="text" class="form-control" name="SongName" value="@HttpContext.Request.Query["description"]" />
     </div>
-    <div class="col-sm-3 col-form-label">Rating (1 - 5)</div>
+    <div class="col-sm-3 col-form-label">Rating</div>
     <div class="col-sm-6">
-        <input type="text" class="form-control" name="reviewRating" value="@Model.newReview.rating" />
+        <input type="text" class="form-control" name="SongAlbum" value="@HttpContext.Request.Query["rating"]" />
     </div>
+
 
     @if (Model.successMessage.Length > 0)
     {
@@ -41,7 +43,7 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
         <div class="col-sm-3 d-grid">
-            <a class="btn btn-primary" href="/Client/ConcertgoerList" role="button">Cancel</a>
+            <a class="btn btn-primary" href="/Client/SongList" role="button">Cancel</a>
         </div>
     </div>
 </form>

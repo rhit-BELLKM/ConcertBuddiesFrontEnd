@@ -4,7 +4,8 @@
 }
 
 <br />
-<h2> List of Concertgoers </h2>
+<h1>Welcome back to Concert Buddies</h1>
+<h2> List of Reviews </h2>
 <a class="btn btn-primary btn-sm" href="/Client/CreateNewReview"> New Review </a>
 <div class="row">
     <div class="col-sm-12" style="padding-bottom:20px">
@@ -17,9 +18,9 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Bio</th>
-            <th>Username</th>
+            <th>Concert</th>
+            <th>Description</th>
+            <th>Rating</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -27,12 +28,12 @@
         @foreach (var item in Model.listReview)
         {
             <tr>
-                <td>@item.name</td>
-                <td>@item.bio</td>
-                <td>@item.username</td>
+                <td>@item.concertID</td>
+                <td>@item.description</td>
+                <td>@item.rating</td>
                 <td>
-                    <a class="btn btn-primary btn-sm" href="/Client/EditReview?id=@item.ID&name=@item.name&bio=@item.bio&username=@item.username">Edit</a>
-                    <a class="btn btn-danger btn-sm" href="/Client/DeleteReview?id=@item.ID&name=@item.name&bio=@item.bio&username=@item.username">Delete</a>
+                    <a class="btn btn-primary btn-sm" href="/Client/EditReview?id=1&concertgoerID=90&description=@item.description&rating=@item.rating">Edit</a>
+                    <a class="btn btn-danger btn-sm" href="/Client/DeleteReview?id=1&concertgoerID=90&description=@item.description&rating=@item.rating">Delete</a>
                 </td>
             </tr>
         }
