@@ -6,10 +6,18 @@
 <br />
 <h2> List of Concerts </h2>
 <a class="btn btn-primary btn-sm" href="/Client/CreateNewConcert"> New Concert </a>
+<div class="row">
+    <div class="col-sm-12" style="padding-bottom:20px">
+        <form enctype="multipart/form-data" method="POST">
+            <input type="file" name="file" />
+            <button type="submit">Import from Excel</button>
+        </form>
+    </div>
+</div>
 <table class="table">
     <thead>
         <tr>
-=            <th>Description</th>
+            <th>Description</th>
             <th>Location</th>
             <th>Actions</th>
         </tr>
@@ -18,7 +26,7 @@
         @foreach (var item in Model.listConcert)
         {
             <tr>
-=                <td>@item.description</td>
+                <td>@item.description</td>
                 <td>@item.location</td>
                 <td>
                     <a class="btn btn-primary btn-sm" href="/Client/EditConcert?id=@item.ID&description=@item.description&location=@item.location">Edit</a>

@@ -91,7 +91,7 @@ namespace ConcertBuddies.Pages.Client
                             {
                                 name = csvReader.GetField("Name").ToString().Trim()
                             };
-                            imported.Add((AlbumInfo)record); // WORKS UP UNTIL HERE, NEED TO RUN SPROC TO ADD TO DATABASE
+                            imported.Add((AlbumInfo)record); 
                         }
                     }
                 }
@@ -128,7 +128,7 @@ namespace ConcertBuddies.Pages.Client
                 return;
             }
 
-            Response.Redirect("/Client/AlbumList");
+            Response.Redirect("/Client/BandList");
 
         }
 
