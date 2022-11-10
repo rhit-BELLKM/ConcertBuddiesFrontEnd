@@ -1,19 +1,21 @@
 ﻿@page
 @model ConcertBuddies.Pages.Client.AlbumListModel
 @{
+    
 }
+
 
 <br />
 <h2> List of Albums </h2>
 <a class="btn btn-primary btn-sm" href="/Client/CreateNewAlbum"> New Album </a>
 <div class="row">
-    <div class="col-sm-12" style="padding-bottom:20px">
-        <form method="post" asp-controller="Albums" asp-action="Import" enctype="multipart/form-data">
+    <div class="col-sm-12" style="padding-top:50px padding-bottom:20px">
+        <form method="POST">
             <div class="col-md-4">
-                <input type="file" id="fUpload" name="files" class="form-control" />
+                <input type="file" id="fUpload" class="form-control" />
             </div>
             <div class="col-md-8">
-                <input type="button" id="btnUpload" value="Upload" />
+                <button type="submit" id="btnUpload" class="btn btn-primary">Upload</button>
             </div>
         </form>
     </div>
