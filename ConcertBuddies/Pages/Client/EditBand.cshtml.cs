@@ -42,7 +42,7 @@ namespace ConcertBuddies.Pages.Client
                         };
                         SqlParameter BandName = new SqlParameter
                         {
-                            ParameterName = "@BandName",
+                            ParameterName = "@Name",
                             Value = newBand.name,
                             SqlDbType = System.Data.SqlDbType.VarChar,
                             Direction = System.Data.ParameterDirection.Input
