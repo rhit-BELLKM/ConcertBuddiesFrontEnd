@@ -5,6 +5,35 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4 mb-15">Welcome</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <h1 class="mb-1">To Concert Buddies</h1>
+                <p class="mb-10">Review Concerts the RIGHT Way</p>
+
+                <form enctype="multipart/form-data" method="POST">
+                    <div class="row">
+                        <div class="col-md-8 mx-auto">
+                            <h4 class="h3 mb-3 font-weight-normal">Please sign in</h4>
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="form-outline mb-4">
+                                <input class="form-control w-100" placeholder="Username" />
+                                <span class="text-danger"></span>
+                            </div>
+
+                            <div class="form-outline mb-4">
+                                <input class="form-control w-100" placeholder="Password" />
+                                <span class="text-danger"></span>
+                            </div>
+
+                            <a class="btn btn-primary btn-block mb-4" type="submit">Login</a>
+                            <a href="/Client/CreateNewConcertgoer" class="btn btn-secondary btn-block mb-4">Register</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>

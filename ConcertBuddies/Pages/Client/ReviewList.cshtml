@@ -1,0 +1,40 @@
+﻿@page
+@model ConcertBuddies.Pages.Client.ReviewListModel
+@{
+}
+
+<br />
+<h2> List of Concertgoers </h2>
+<a class="btn btn-primary btn-sm" href="/Client/CreateNewReview"> New Review </a>
+<div class="row">
+    <div class="col-sm-12" style="padding-bottom:20px">
+        <form enctype="multipart/form-data" method="POST">
+            <input type="file" name="file" />
+            <button type="submit">Import from Excel</button>
+        </form>
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Bio</th>
+            <th>Username</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.listReview)
+        {
+            <tr>
+                <td>@item.name</td>
+                <td>@item.bio</td>
+                <td>@item.username</td>
+                <td>
+                    <a class="btn btn-primary btn-sm" href="/Client/EditReview?id=@item.ID&name=@item.name&bio=@item.bio&username=@item.username">Edit</a>
+                    <a class="btn btn-danger btn-sm" href="/Client/DeleteReview?id=@item.ID&name=@item.name&bio=@item.bio&username=@item.username">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
